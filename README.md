@@ -1,22 +1,3 @@
-## 🔗 Índice
-
-1. [Sobre o Projeto](#sobre-o-projeto)
-2. [Tecnologias Utilizadas](#tecnologias-utilizadas)
-    - [Java 17](#java-17)
-    - [Lombok](#lombok)
-    - [Redis](#redis)
-    - [MongoDB](#mongodb)
-    - [Openfeign](#openfeign)
-    - [Docker](#docker)
-    - [API Externa](#api-externa)
-3. [Funcionalidades](#funcionalidades)
-4. [Screenshots](#screenshots)
-5. [Como Rodar o Projeto](#como-rodar-o-projeto)
-6. [Contribuições](#contribuições)
-7. [License](#License)
-
----
-
 ## 📖 Sobre o Projeto
 
 O projeto é um serviço que gerencia um carrinho de compras simples, integrando dados de uma API externa para fornecer produtos disponíveis. Ele utiliza uma arquitetura eficiente que combina cache (Redis), banco de dados NoSQL (MongoDB), e contêineres (Docker), garantindo alta performance e escalabilidade.
