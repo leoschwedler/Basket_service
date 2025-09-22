@@ -2,10 +2,6 @@ services:
   mongo:
     container_name: mongodb
     image: mongo:4
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=leozinho
-      - MONGO_INITDB_ROOT_PASSWORD=123
-      - MONGO_INITDB_DATABASE=basket_service
     ports:
       - "27017:27017"
     volumes:
@@ -20,4 +16,3 @@ services:
 
 volumes:
   mongo-data:
-
