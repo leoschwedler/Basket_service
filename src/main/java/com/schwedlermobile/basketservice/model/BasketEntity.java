@@ -28,6 +28,8 @@ public class BasketEntity {
 
     private Status status;
 
+    private PaymentMethod payment;
+
     // Método para calcular o preço total do basket
     public void calculateTotalPrice() {
         this.totalPrice = products.stream()

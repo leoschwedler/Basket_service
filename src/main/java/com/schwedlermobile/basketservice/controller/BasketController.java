@@ -6,6 +6,7 @@ import com.schwedlermobile.basketservice.model.ProductEntity;
 import com.schwedlermobile.basketservice.model.Status;
 import com.schwedlermobile.basketservice.repository.BasketRepository;
 import com.schwedlermobile.basketservice.request.BasketRequest;
+import com.schwedlermobile.basketservice.request.PaymentRequest;
 import com.schwedlermobile.basketservice.response.BasketResponse;
 import com.schwedlermobile.basketservice.response.ProductResponse;
 import com.schwedlermobile.basketservice.service.BasketService;
@@ -42,6 +43,12 @@ public class BasketController {
     @PutMapping("/update/{basketId}")
     public ResponseEntity<BasketResponse> updateBasket(@PathVariable String basketId, @RequestBody BasketRequest request){
         BasketResponse response = service.updateBasket(basketId,request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/payment/{basketId}")
+    public ResponseEntity<BasketResponse> payBasket(@PathVariable String basketId,@RequestBody PaymentRequest request){
+        BasketResponse response = service.payBasket(basketId,request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

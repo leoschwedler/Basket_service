@@ -6,6 +6,7 @@ import com.schwedlermobile.basketservice.model.ProductEntity;
 import com.schwedlermobile.basketservice.model.Status;
 import com.schwedlermobile.basketservice.repository.BasketRepository;
 import com.schwedlermobile.basketservice.request.BasketRequest;
+import com.schwedlermobile.basketservice.request.PaymentRequest;
 import com.schwedlermobile.basketservice.response.BasketResponse;
 import com.schwedlermobile.basketservice.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
@@ -76,5 +77,14 @@ public class BasketService {
         basketEntity.calculateTotalPrice();
         basketEntity = repository.save(basketEntity);
         return BasketMapper.map(basketEntity);
+    }
+
+    public BasketResponse payBasket(String basketId, PaymentRequest request){
+        BasketResponse response = getBasketById(basketId);
+        BasketEntity basket = BasketMapper.map(response);
+        basket.setPayment(request.paymentMethod());
+        basket.setStatus(Status.CLOSE);
+        basket = repository.save(basket);
+        return BasketMapper.map(basket);
     }
 }
