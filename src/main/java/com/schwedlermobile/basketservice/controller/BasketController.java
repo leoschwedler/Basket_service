@@ -52,4 +52,10 @@ public class BasketController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @DeleteMapping("/delete/{basketId}")
+    public ResponseEntity<Void> deleteBasket(@PathVariable String basketId){
+       service.deleteBasket(basketId);
+       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }

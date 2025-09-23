@@ -87,4 +87,10 @@ public class BasketService {
         basket = repository.save(basket);
         return BasketMapper.map(basket);
     }
+
+    public void deleteBasket(String basketId){
+        BasketResponse response = getBasketById(basketId);
+        BasketEntity basket = BasketMapper.map(response);
+        repository.delete(basket);
+    }
 }
