@@ -16,4 +16,14 @@ public class BasketMapper {
                 .status(entity.getStatus())
                 .build();
     }
+
+    public static BasketEntity map(BasketResponse response){
+        return BasketEntity.builder()
+                .id(response.id())
+                .client(response.clientId())
+                .totalPrice(response.totalPrice())
+                .products(response.products())
+                .status(response.status())
+                .build();
+    }
 }

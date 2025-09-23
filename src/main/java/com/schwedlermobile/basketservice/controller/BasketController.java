@@ -38,4 +38,11 @@ public class BasketController {
         BasketResponse basket = service.getBasketById(id);
         return ResponseEntity.ok(basket);
     }
+
+    @PutMapping("/update/{basketId}")
+    public ResponseEntity<BasketResponse> updateBasket(@PathVariable String basketId, @RequestBody BasketRequest request){
+        BasketResponse response = service.updateBasket(basketId,request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }

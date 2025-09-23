@@ -55,4 +55,26 @@ public class BasketService {
         Optional<BasketEntity> basket = repository.findById(id);
         return basket.map(BasketMapper::map).orElse(null);
     }
+
+    public BasketResponse updateBasket(String basketId, BasketRequest request){
+        BasketResponse basket = getBasketById(basketId);
+        List<ProductEntity> products = new ArrayList<>();
+        request.products().stream().forEach(
+                product -> {
+                    ProductResponse response = service.getProducById(product.id());
+
+                    products.add(ProductEntity.builder()
+                                    .id(response.id())
+                                    .title(response.title())
+                                    .price(response.price())
+                                    .quantity(product.quantity())
+                            .build());
+                }
+        );
+        BasketEntity basketEntity = BasketMapper.map(basket);
+        basketEntity.setProducts(products);
+        basketEntity.calculateTotalPrice();
+        basketEntity = repository.save(basketEntity);
+        return BasketMapper.map(basketEntity);
+    }
 }
