@@ -1,5 +1,7 @@
 package com.schwedlermobile.basketservice.service;
 
+import com.schwedlermobile.basketservice.exceptions.BusinessException;
+import com.schwedlermobile.basketservice.exceptions.DataNotFoundException;
 import com.schwedlermobile.basketservice.mapper.BasketMapper;
 import com.schwedlermobile.basketservice.model.BasketEntity;
 import com.schwedlermobile.basketservice.model.ProductEntity;
@@ -27,21 +29,11 @@ public class BasketService {
 
         repository.findByClientAndStatus(request.clientId(), Status.OPEN).ifPresent(
                 basket -> {
-                    throw new IllegalArgumentException("There is already an open basket for this client");
+                    throw new BusinessException("There is already an open basket for this client");
                 }
         );
 
-        List<ProductEntity> products = new ArrayList<>();
-        request.products().stream().forEach(
-                product -> {
-                    ProductResponse response = service.getProducById(product.id());
-
-                    products.add(ProductEntity.builder()
-                            .id(response.id())
-                            .title(response.title())
-                            .price(response.price())
-                            .quantity(product.quantity())
-                            .build());});
+        List<ProductEntity> products = getProductEntities(request);
         BasketEntity basket = BasketEntity.builder()
                 .client(request.clientId())
                 .products(products)
@@ -54,24 +46,12 @@ public class BasketService {
 
     public BasketResponse getBasketById(String id){
         Optional<BasketEntity> basket = repository.findById(id);
-        return basket.map(BasketMapper::map).orElse(null);
+        return basket.map(BasketMapper::map).orElseThrow(() -> new DataNotFoundException("Basket Not found"));
     }
 
     public BasketResponse updateBasket(String basketId, BasketRequest request){
         BasketResponse basket = getBasketById(basketId);
-        List<ProductEntity> products = new ArrayList<>();
-        request.products().stream().forEach(
-                product -> {
-                    ProductResponse response = service.getProducById(product.id());
-
-                    products.add(ProductEntity.builder()
-                                    .id(response.id())
-                                    .title(response.title())
-                                    .price(response.price())
-                                    .quantity(product.quantity())
-                            .build());
-                }
-        );
+        List<ProductEntity> products = getProductEntities(request);
         BasketEntity basketEntity = BasketMapper.map(basket);
         basketEntity.setProducts(products);
         basketEntity.calculateTotalPrice();
@@ -92,5 +72,20 @@ public class BasketService {
         BasketResponse response = getBasketById(basketId);
         BasketEntity basket = BasketMapper.map(response);
         repository.delete(basket);
+    }
+
+    private List<ProductEntity> getProductEntities(BasketRequest request) {
+        List<ProductEntity> products = new ArrayList<>();
+        request.products().stream().forEach(
+                product -> {
+                    ProductResponse response = service.getProducById(product.id());
+
+                    products.add(ProductEntity.builder()
+                            .id(response.id())
+                            .title(response.title())
+                            .price(response.price())
+                            .quantity(product.quantity())
+                            .build());});
+        return products;
     }
 }

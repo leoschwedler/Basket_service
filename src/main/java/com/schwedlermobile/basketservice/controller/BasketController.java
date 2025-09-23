@@ -10,8 +10,7 @@ import com.schwedlermobile.basketservice.request.PaymentRequest;
 import com.schwedlermobile.basketservice.response.BasketResponse;
 import com.schwedlermobile.basketservice.response.ProductResponse;
 import com.schwedlermobile.basketservice.service.BasketService;
-import com.schwedlermobile.basketservice.service.ProductService;
-import feign.Response;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
